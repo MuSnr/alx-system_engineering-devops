@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # My Repository
 
 This is a description of my repository. It contains various scripts and files for a specific project or purpose. You can use this repository to...
@@ -15,7 +14,4 @@ Here's how you can use the scripts and files in this repository...
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-
-=======
->>>>>>> 4b232f3d01b5d9ac548ce810ee23898d08372d98
 
