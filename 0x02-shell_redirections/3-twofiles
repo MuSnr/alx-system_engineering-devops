@@ -1,2 +1,5 @@
-i#!/bin/bash
-cat /etc/passwd /etc/hosts
+#!/bin/bash
+cat /etc/passwd
+echo  # Add a blank line for separation
+cat /etc/hosts
+
