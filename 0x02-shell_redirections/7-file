@@ -1,3 +1,16 @@
 #!/bin/bash
-echo "Best School" > '*\\'"Best School"'\\*$?*****:)'
+
+# Number of checks
+num_checks=6
+
+# Command or script to check
+command_to_check="./7-file.sh"
+
+# Loop through the checks
+for ((i = 0; i < num_checks; i++)); do
+    echo "Check $i"
+    $command_to_check
+    echo "Best School"
+    echo "-----"
+done
 
