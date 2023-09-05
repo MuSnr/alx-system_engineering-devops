@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Initialize a counter
+count=1
+
+# Loop through input lines
+while IFS= read -r line; do
+    # Check if the current line should be printed (odd line number)
+    if [ $((count % 2)) -eq 1 ]; then
+        echo "$line"
+    fi
+
+    # Increment the counter
+    count=$((count + 1))
+done
+
+# Reset the counter
+count=1
+

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Get the values of WATER and STIR environment variables
+WATER="$WATER"
+STIR="$STIR"
+
+# Convert WATER and STIR to base 10 using bc
+WATER_DECIMAL=$(echo "ibase=16; $WATER" | bc)
+STIR_DECIMAL=$(echo "ibase=16; $STIR" | bc)
+
+# Add the values in base 10
+RESULT_DECIMAL=$((WATER_DECIMAL + STIR_DECIMAL))
+
+# Convert the result to base 16 using bc
+RESULT_BESTCHOL=$(echo "obase=16; $RESULT_DECIMAL" | bc)
+
+# Print the result
+echo "$RESULT_BESTCHOL"
+
