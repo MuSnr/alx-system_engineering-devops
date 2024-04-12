@@ -1,5 +1,8 @@
 # The Fascinating Journey Behind Your Favorite Web Request: From Typing "https://www.google.com" to Web Page Display
 
+![Web](https://github.com/MuSnr/alx-system_engineering-devops/assets/108272722/8d6d6a08-8828-4192-ae91-60845ddac570)
+
+
 ## Introduction
 
 The process of our digital life today turns out to be the person has typed a URL into the Internet browser, and, as a result, the web page is loading. In reality, this seemingly straightforward action lures an even more complex system, which is a group of many dissimilar components of the web stack. In this blog post, we’ll embark on a journey from the moment you type “https: Press “//google.com” into the address bar on your browser. Your screen will now be running the Google home page. We will look at every step of this process: the DNS resolution system, the TCP/IP communication, the HTTPS encryption, the load balancing function, the server-side computation, and the database-driven storage system.
