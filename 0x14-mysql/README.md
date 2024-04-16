@@ -1,4 +1,6 @@
 # MySQL Primary-Replica Configuration and Backup Automation
+![MYSQL](https://github.com/MuSnr/alx-system_engineering-devops/assets/108272722/5acb2f7a-5db0-4a1c-ab11-e46d97565207)
+
 
 This repository contains the configuration files and backup automation script for setting up MySQL primary-replica servers and automating the generation of database backups.
 
