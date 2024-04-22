@@ -1,48 +1,46 @@
 #!/usr/bin/python3
-
-"""[task 3, get and save on json]
 """
+Exports to-do list information of all employees to JSON format.
+
+This script fetches the user information and to-do lists for all employees
+from the JSONPlaceholder API and exports the data to a JSON file.
+"""
+
 import json
 import requests
 
 
-def get_user():
-    """get the user
-    Args:
-        id (integer: user id]
-    """
-    url = 'https://jsonplaceholder.typicode.com/'
-    users = requests.get(url + 'users').json()
-    todos = requests.get(url + 'todos').json()
-    return([users, todos])
+def fetch_user_data():
+    """Fetch user information and to-do lists for all employees."""
+    # Base URL for the JSONPlaceholder API
+    url = "https://jsonplaceholder.typicode.com/"
+
+    # Fetch the list of all users (employees)
+    users = requests.get(url + "users").json()
+
+    # Create a dictionary containing to-do list information of all employees
+    data_to_export = {}
+    for user in users:
+        user_id = user["id"]
+        user_url = url + f"todos?userId={user_id}"
+        todo_list = requests.get(user_url).json()
+
+        data_to_export[user_id] = [
+            {
+                "task": todo.get("title"),
+                "completed": todo.get("completed"),
+                "username": user.get("username"),
+            }
+            for todo in todo_list
+        ]
+
+    return data_to_export
 
 
-def store_csv(data):
-    """data to csv
+if __name__ == "__main__":
+    data_to_export = fetch_user_data()
 
-    Args:
-        data (list): users and todos
-    """
+    # Write the data to a JSON file
+    with open("todo_all_employees.json", "w") as jsonfile:
+        json.dump(data_to_export, jsonfile, indent=4)
 
-    users = data[0]
-    todos = data[1]
-    info = {}
-    list_items = []
-    idx = todos[0]['userId']
-    for task in todos:
-        username = users[task['userId'] - 1]['username']
-        if task['userId'] != idx:
-            list_items = []
-            idx = task['userId']
-        list_items.append({
-                                'username': username,
-                                'task': task['title'],
-                                'completed': task['completed']})
-        info[task['userId']] = list_items
-    with open('todo_all_employees' + '.json', 'w') as f:
-        json.dump(info, f)
-
-
-if __name__ == '__main__':
-    data = get_user()
-    store_csv(data)
