@@ -1,45 +1,43 @@
 #!/usr/bin/python3
-
-"""[task 1, get and save on json]
 """
+Exports to-do list information for a given employee ID to JSON format.
+
+This script takes an employee ID as a command-line argument and exports
+the corresponding user information and to-do list to a JSON file.
+"""
+
 import json
 import requests
-from sys import argv
+import sys
 
 
-def get_user(id):
-    """get the user
-    Args:
-        id (integer: user id]
-    """
-    url = 'https://jsonplaceholder.typicode.com/'
-    users = requests.get(url + 'users', params={'id': id}).json()
-    todos = requests.get(url + 'todos', params={'userId': id}).json()
-    return([users, todos])
+if __name__ == "__main__":
+    # Get the employee ID from the command-line argument
+    user_id = sys.argv[1]
 
+    # Base URL for the JSONPlaceholder API
+    url = "https://jsonplaceholder.typicode.com/"
 
-def store_csv(data):
-    """data to json
+    # Fetch user information using the provided employee ID
+    user = requests.get(url + "users/{}".format(user_id)).json()
+    username = user.get("username")
 
-    Args:
-        data (list): users and todos
-    """
+    # Fetch the to-do list for the employee using the provided employee ID
+    params = {"userId": user_id}
+    todos = requests.get(url + "todos", params).json()
 
-    users = data[0]
-    todos = data[1]
-    username = users[0]['username']
-    info = {}
-    list_items = []
-    for task in todos:
-        list_items.append({
-                                'task': task['title'],
-                                'completed': task['completed'],
-                                'username': username})
-    info[task['userId']] = list_items
-    with open(str(argv[1]) + '.json', 'w') as f:
-        json.dump(info, f)
+    # Create a dictionary containing the user and to-do list information
+    data_to_export = {
+        user_id: [
+            {
+                "task": t.get("title"),
+                "completed": t.get("completed"),
+                "username": username
+            }
+            for t in todos
+        ]
+    }
 
-
-if __name__ == '__main__':
-    data = get_user(argv[1])
-    store_csv(data)
+    # Write the data to a JSON file with the employee ID as the filename
+    with open("{}.json".format(user_id), "w") as jsonfile:
+        json.dump(data_to_export, jsonfile, indent=4)
