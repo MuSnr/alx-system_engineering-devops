@@ -1,39 +1,34 @@
 #!/usr/bin/python3
+"""Exports to-do list information for a given employee ID to CSV format."""
 
-"""[task 1, get and save on csv]
-"""
 import csv
 import requests
-from sys import argv
+import sys
 
 
-def get_user(id):
-    """get the user
-    Args:
-        id (integer: user id]
-    """
-    url = 'https://jsonplaceholder.typicode.com/'
-    users = requests.get(url + 'users', params={'id': id}).json()
-    todos = requests.get(url + 'todos', params={'userId': id}).json()
-    return([users, todos])
+if __name__ == "__main__":
+    # Get the user ID from the command-line arguments provided to the script
+    user_id = sys.argv[1]
 
+    # Define the base URL for the JSON API
+    url = "https://jsonplaceholder.typicode.com/"
 
-def store_csv(data):
-    """data to csv
+    # Fetch user information from the API and
+    #   convert the response to a JSON object
+    user = requests.get(url + "users/{}".format(user_id)).json()
 
-    Args:
-        data (list): users and todos
-    """
-    users = data[0]
-    todos = data[1]
-    username = users[0]['username']
-    with open(argv[1] + '.csv', 'w', newline='') as f:
-        towrite = csv.writer(f, quoting=csv.QUOTE_ALL)
-        for task in todos:
-            towrite.writerow([task['userId'], username,
-                             task['completed'], task['title']])
+    # Extract the username from the user data
+    username = user.get("username")
 
+    # Fetch the to-do list items associated with the
+    #   given user ID and convert the response to a JSON object
+    todos = requests.get(url + "todos", params={"userId": user_id}).json()
 
-if __name__ == '__main__':
-    data = get_user(argv[1])
-    store_csv(data)
+    # Use list comprehension to iterate over the to-do list items
+    # Write each item's details (user ID, username, completion status,
+    #   and title) as a row in the CSV file
+    with open("{}.csv".format(user_id), "w", newline="") as csvfile:
+        writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
+        [writer.writerow(
+            [user_id, username, t.get("completed"), t.get("title")]
+         ) for t in todos]
